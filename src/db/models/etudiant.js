@@ -9,6 +9,7 @@ import { sequelize } from "../connection.js";
              primaryKey: true,
              autoIncrement: true,
              allowNull: false,
+             unique: true
          },
          nom: {
              type: DataTypes.STRING,
@@ -26,10 +27,24 @@ import { sequelize } from "../connection.js";
              type: DataTypes.STRING,
              allowNull: false,
          },
-         role: {
+        telephone: {
              type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+        },
+        email: {
+             type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+        },
+        lieuHabitat: {
+             type: DataTypes.TEXT,
              allowNull: false,
-         }
+        },
+        ville: {
+             type: DataTypes.TEXT,
+             allowNull: false,
+        }
      },
      {
          sequelize,
