@@ -1,4 +1,4 @@
- import { Sequelize, DataTypes, Model } from "sequelize";
+ import {  DataTypes, Model } from "sequelize";
 import { sequelize } from "../connection.js";
 
  export class Etudiant extends Model {}
