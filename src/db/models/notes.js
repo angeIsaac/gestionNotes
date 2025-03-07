@@ -57,7 +57,7 @@ Notes.init({
 Notes.belongsTo(Etudiant, {
     foreignKey: {
         allowNull: false,
-        name: "noteId",
+        name: "etudiantId",
         type: DataTypes.INTEGER,
     },
     onDelete: "CASCADE",

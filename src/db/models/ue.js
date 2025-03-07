@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import {sequelize} from "../connection.js";
+import {Notes} from "./notes.js";
 
 export class Ue extends Model {}
 
@@ -27,3 +28,5 @@ Ue.init({
         timestamps: true,
     }
 )
+
+Ue.hasMany(Notes)

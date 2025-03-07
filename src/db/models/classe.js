@@ -1,7 +1,8 @@
-import {DataTypes, Model as classe, Model as Class, Model} from 'sequelize'
+import {DataTypes, Model } from 'sequelize'
 import {sequelize} from "../connection.js";
 import {Enseignant} from "./enseignant.js";
 import {Fillieres} from "./filliere.js";
+import {Notes} from "./notes.js";
 
 export class Classe extends Model {}
 
@@ -26,5 +27,14 @@ Classe.init({
     }
 )
 
-classe.belongsTo(Enseignant, {})
-classe.belongsTo(Fillieres, {})
+Classe.belongsTo(Enseignant, {
+    foreignKey: 'enseignantId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+})
+Classe.belongsTo(Fillieres, {
+    foreignKey: 'fillierId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+})
+Classe.hasMany(Notes)
