@@ -3,6 +3,7 @@ import {sequelize} from "../connection.js";
 import {Enseignant} from "./enseignant.js";
 import {Fillieres} from "./filliere.js";
 import {Notes} from "./notes.js";
+import {Bulletins} from "./bulletins.js";
 
 export class Classe extends Model {}
 
@@ -38,3 +39,4 @@ Classe.belongsTo(Fillieres, {
     onUpdate: 'CASCADE'
 })
 Classe.hasMany(Notes)
+Classe.hasMany(Bulletins)
