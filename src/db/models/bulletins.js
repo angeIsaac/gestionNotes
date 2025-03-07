@@ -7,6 +7,12 @@ import {Classe} from "./classe.js";
 export class Bulletins extends Model {}
 
 Bulletins.init({
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        unique: true,
+    },
     anneeScolaire: {
         type: DataTypes.STRING(9),
         allowNull: false,
