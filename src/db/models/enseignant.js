@@ -1,6 +1,6 @@
-import { Sequelize, DataTypes, Model } from "sequelize"
+import { DataTypes, Model } from "sequelize"
 import {sequelize} from "../connection.js";
-import {Classe} from "./classe.js";
+import { Classe } from "./classe.js";
 
 export class Enseignant extends Model {}
 
@@ -43,5 +43,5 @@ Enseignant.init({
     }
     )
 
-Enseignant.hasMany(Classe)
+
 

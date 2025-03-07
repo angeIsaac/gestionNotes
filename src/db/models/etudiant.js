@@ -1,9 +1,7 @@
  import {  DataTypes, Model } from "sequelize";
 import { sequelize } from "../connection.js";
- import {Ue} from "./ue.js";
- import {Notes} from "./notes.js";
- import {Bulletins} from "./bulletins.js";
- import {Inscription} from "./inscription.js";
+
+
 
  export class Etudiant extends Model {}
 
@@ -59,7 +57,3 @@ import { sequelize } from "../connection.js";
          logging: false,
      }
  )
- Etudiant.hasMany(Notes, {})
- Etudiant.hasMany(Bulletins)
- Etudiant.hasMany(Inscription)
-

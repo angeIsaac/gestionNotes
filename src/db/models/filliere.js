@@ -27,5 +27,5 @@ Fillieres.init({
     timestamps: true,
 })
 
-Fillieres.hasMany(Classe)
+
 

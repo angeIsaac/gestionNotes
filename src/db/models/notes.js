@@ -53,31 +53,3 @@ Notes.init({
         tableName: "notes"
     }
 )
-
-Notes.belongsTo(Etudiant, {
-    foreignKey: {
-        allowNull: false,
-        name: "etudiantId",
-        type: DataTypes.INTEGER,
-    },
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE"
-})
-Notes.belongsTo(Classe, {
-    foreignKey: {
-        name: "classeId",
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE"
-})
-Notes.belongsTo(Ue, {
-    foreignKey: {
-        name: "ueId",
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE"
-})

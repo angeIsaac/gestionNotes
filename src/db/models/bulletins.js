@@ -12,6 +12,7 @@ Bulletins.init({
         allowNull: false,
         autoIncrement: true,
         unique: true,
+        primaryKey: true,
     },
     anneeScolaire: {
         type: DataTypes.STRING(9),
@@ -41,21 +42,3 @@ Bulletins.init({
     }
 )
 
-Bulletins.belongsTo(Etudiant, {
-    foreignKey: {
-        name: "etudiantId",
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE'
-})
-Bulletins.belongsTo(Classe, {
-    foreignKey: {
-        name: "classeId",
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
-})
