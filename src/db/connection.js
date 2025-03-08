@@ -17,3 +17,5 @@ export const connection = async function() {
     }
 }
 
+export const transaction =  sequelize.transaction();
+
