@@ -1,13 +1,28 @@
 import { DataTypes, Model } from "sequelize";
 import {sequelize} from "../connection.js";
 
-export class Users extends Model {}
+export class Users extends Model {
+    getFullName(){
+        return `${this.prenom} ${this.name}`;
+    }
+    getName(){
+        return `${this.name}`;
+    }
+}
 Users.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         unique: true
+    },
+    name: {
+        type: DataTypes.STRING(80),
+        allowNull: false
+    },
+    prenom: {
+        type: DataTypes.STRING(80),
+        allowNull: false
     },
     email: {
         type: DataTypes.STRING,
