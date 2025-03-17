@@ -123,3 +123,24 @@ Fillieres.belongsToMany(Ue, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
+
+Enseignant.belongsToMany(Ue, {
+    through: "enseignant_Ue",
+    foreignKey: {
+        name: "enseignantId",
+        allowNull: false,
+        type: DataTypes.INTEGER,
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+})
+Ue.belongsToMany(Enseignant, {
+    through: "enseignant_Ue",
+    foreignKey: {
+        name: "enseignantId",
+        allowNull: false,
+        type: DataTypes.INTEGER,
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+})
