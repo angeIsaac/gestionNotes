@@ -81,7 +81,7 @@ Classe.belongsTo(Fillieres, {
 
 
 
-// relation un à plusieurs entre enseignant et classe
+// relation un à plusieurs entre enseignant et une classe
 Enseignant.hasMany(Classe)
 Classe.belongsTo(Enseignant, {
     foreignKey: 'enseignantId',
@@ -90,15 +90,36 @@ Classe.belongsTo(Enseignant, {
 })
 
 // relation plusieurs à plusieurs entres etudiant et classe
-Enseignant.belongsToMany(Classe, {
-    through: "inscription",
+Etudiant.belongsToMany(Classe, {
+    through: "inscriptions",
     foreignKey: 'etudiantId',
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
-Classe.belongsToMany(Enseignant, {
-    through: "inscriptionId",
+Classe.belongsToMany(Etudiant, {
+    through: "inscriptions",
     foreignKey: "classId",
     onDelete: "CASCADE",
     onUpdate: "CASCADE"
+})
+
+Ue.belongsToMany(Fillieres, {
+    through: "filliere_ue",
+    foreignKey: {
+        name: "ueId",
+        allowNull: false,
+        type: DataTypes.INTEGER,
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+})
+Fillieres.belongsToMany(Ue, {
+    through: "filliere_ue",
+    foreignKey: {
+        name: "fillierId",
+        allowNull: false,
+        type: DataTypes.INTEGER,
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
 })
