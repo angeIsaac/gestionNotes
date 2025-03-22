@@ -1,7 +1,6 @@
 import {DataTypes, Model} from "sequelize";
 import {sequelize} from "../connection.js";
-import {Etudiant} from "./etudiant.js";
-import {Classe} from "./classe.js";
+
 
 
 export class Bulletins extends Model {}
