@@ -14,6 +14,6 @@ router.get("/get-all-etudiants", getEtudiants);
 router.post("/create-etudiant", createEtudiant);
 router.delete("/delete-etudiant/:id", deleteEtudiant);
 router.put("/update-etudiant/:id", updateEtudiant);
-router.get("/get-etudiant", getEtudiantById)
+router.get("/get-etudiant/:id", getEtudiantById)
 
 export default router;
