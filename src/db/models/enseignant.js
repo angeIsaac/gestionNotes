@@ -6,7 +6,7 @@ export class Enseignant extends Model {}
 
 Enseignant.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
