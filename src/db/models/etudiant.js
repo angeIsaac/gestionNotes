@@ -7,10 +7,10 @@ import { sequelize } from "../connection.js";
 
  Etudiant.init( {
          id: {
-             type: DataTypes.INTEGER,
+             type: DataTypes.UUID,
              primaryKey: true,
-             autoIncrement: true,
              allowNull: false,
+             defaultValue: DataTypes.UUIDV4,
              unique: true
          },
          nom: {
@@ -28,6 +28,7 @@ import { sequelize } from "../connection.js";
          matricule: {
              type: DataTypes.STRING,
              allowNull: false,
+             unique: true
          },
         telephone: {
              type: DataTypes.STRING,
