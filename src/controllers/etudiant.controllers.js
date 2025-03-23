@@ -68,7 +68,9 @@ export const getEtudiantById = async (req, res) => {
       if(!id){
           return res.status(404).json({"message": "Not Found"});
       }
-      const etudiant = Etudiant.findByPk(id)
+       const etudiant = await Etudiant.findOne({
+           where: {id: id},
+       })
         res.status(200).json(etudiant);
     }catch (error){
         res.status(500).json({"error": error});
