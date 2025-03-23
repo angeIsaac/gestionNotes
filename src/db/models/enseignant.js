@@ -8,7 +8,7 @@ Enseignant.init({
     id: {
         type: DataTypes.UUID,
         allowNull: false,
-        autoIncrement: true,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         unique: true
     },
