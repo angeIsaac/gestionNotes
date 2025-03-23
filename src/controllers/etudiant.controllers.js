@@ -61,3 +61,16 @@ export const deleteEtudiant = async (req, res) => {
        res.status(500).json({"error": error});
    }
 }
+
+export const getEtudiantById = async (req, res) => {
+    try{
+      const id = req.params.id;
+      if(!id){
+          return res.status(404).json({"message": "Not Found"});
+      }
+      const etudiant = Etudiant.findByPk(id)
+        res.status(200).json(etudiant);
+    }catch (error){
+        res.status(500).json({"error": error});
+    }
+}
