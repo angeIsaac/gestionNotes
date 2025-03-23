@@ -35,12 +35,10 @@ export const createEtudiant = async (req, res) => {
 export const updateEtudiant = async (req, res) => {
     try{
         const id = req.params.id;
-        console.log(id);
         if(!id){
             return res.status(404).json({"message": "Not Found"});
         }
         const body = req.body;
-        console.log(body);
         const etudiantUpdate = await Etudiant.update(body, {
             where: {id: id},
             returning: true,
