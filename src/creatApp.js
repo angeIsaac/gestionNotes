@@ -5,6 +5,7 @@ import {errorHandlers} from "./utils/herrorHandlers.js";
 import usersRoutes from "./routes/users.router.js";
 import EtudiantsRoutes from "./routes/etudiant.route.js"
 import EnseignantRoute from "./routes/enseignant.route.js";
+import fillierRoutes from "./routes/filliere.route.js";
 
 export const creatApp = function (){
     const app = express();
@@ -16,6 +17,7 @@ export const creatApp = function (){
     app.use("/api/users", usersRoutes)
     app.use("/api/etudiant", EtudiantsRoutes)
     app.use("/api/enseignant", EnseignantRoute)
+    app.use("/api/fillieres", fillierRoutes)
 
     app.use(errorHandlers)
     return app;
