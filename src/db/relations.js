@@ -1,5 +1,4 @@
 import {Etudiant} from "./models/etudiant.js";
-import {DataTypes} from "sequelize";
 import {Classe} from "./models/classe.js";
 import {Bulletins} from "./models/bulletins.js";
 import {Notes} from "./models/notes.js";
@@ -10,71 +9,75 @@ import {Enseignant} from "./models/enseignant.js";
 
 
 // relation entre etudiant et bulletins
-Etudiant.hasMany(Bulletins)
+Etudiant.hasMany(Bulletins, {
+    foreignKey: "etudiantId",
+    as: "bulletins",
+})
 Bulletins.belongsTo(Etudiant, {
-    foreignKey: {
-        name: "etudiantId",
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
+    foreignKey: "etudiantId",
+    as: "etudiant",
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE'
 })
 
 
 // relation un à plusieurs entre classe et un bulletins
-Classe.hasMany(Bulletins)
+Classe.hasMany(Bulletins, {
+    foreignKey: "classeId",
+    as: "bulletins",
+})
 Bulletins.belongsTo(Classe, {
-    foreignKey: {
-        name: "classeId",
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
+    foreignKey: "classeId",
+    as: "classes",
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
 })
 
 // relation un à plusieurs entre Ue et Notes
-Ue.hasMany(Notes)
+Ue.hasMany(Notes, {
+    foreignKey: "ueId",
+    as: 'notes',
+})
 Notes.belongsTo(Ue, {
-    foreignKey: {
-        name: "ueId",
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
+    foreignKey: "ueId",
+    as: "ue",
     onDelete: "CASCADE",
     onUpdate: "CASCADE"
 })
 
 //relation  un à plusieur entre etudiant et notes
-Etudiant.hasMany(Notes, {})
+Etudiant.hasMany(Notes, {
+    foreignKey: "etudiantId",
+    as:"notes"
+})
 Notes.belongsTo(Etudiant, {
-    foreignKey: {
-        allowNull: false,
-        name: "etudiantId",
-        type: DataTypes.INTEGER,
-    },
+    foreignKey: "etudiantId",
+    as: "etudiant",
     onDelete: "CASCADE",
     onUpdate: "CASCADE"
 })
 
 // relation  un à plusieur entre classe et la notes
-Classe.hasMany(Notes)
+Classe.hasMany(Notes, {
+    foreignKey: "classeId",
+    as: "notes",
+})
 Notes.belongsTo(Classe, {
-    foreignKey: {
-        name: "classeId",
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
+    foreignKey: "classeId",
+    as: "classes",
     onDelete: "CASCADE",
     onUpdate: "CASCADE"
 })
 
 
 // relations  un à plusieur entre la fillieres et classes
-Fillieres.hasMany(Classe)
+Fillieres.hasMany(Classe, {
+    foreignKey: 'fillierId',
+    as: "filliers",
+})
 Classe.belongsTo(Fillieres, {
     foreignKey: 'fillierId',
+    as: "filliers",
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
@@ -82,9 +85,15 @@ Classe.belongsTo(Fillieres, {
 
 
 // relation un à plusieurs entre enseignant et une classe
-Enseignant.hasMany(Classe)
+Enseignant.belongsToMany(Classe, {
+    through: "ClasseEnseigné",
+    foreignKey: 'enseignId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+})
 Classe.belongsTo(Enseignant, {
-    foreignKey: 'enseignantId',
+    foreignKey: 'classeId',
+    through: "ClasseEnseigné",
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
@@ -105,42 +114,26 @@ Classe.belongsToMany(Etudiant, {
 
 Ue.belongsToMany(Fillieres, {
     through: "filliere_ue",
-    foreignKey: {
-        name: "ueId",
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
+    foreignKey: "ueId",
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
 Fillieres.belongsToMany(Ue, {
     through: "filliere_ue",
-    foreignKey: {
-        name: "fillierId",
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
+    foreignKey: "fillierId",
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
 
 Enseignant.belongsToMany(Ue, {
     through: "enseignant_Ue",
-    foreignKey: {
-        name: "enseignantId",
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
+    foreignKey: "enseignantId",
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
 Ue.belongsToMany(Enseignant, {
     through: "enseignant_Ue",
-    foreignKey: {
-        name: "enseignantId",
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
+    foreignKey: "enseignantId",
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })

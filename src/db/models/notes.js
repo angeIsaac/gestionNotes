@@ -44,6 +44,10 @@ Notes.init({
             notEmpty: true,
             isDate: true
         }
+    },
+    apreciation: {
+        type: DataTypes.STRING,
+        allowNull: false,
     }
 },
     {

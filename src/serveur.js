@@ -1,6 +1,7 @@
 import {creatApp} from "./creatApp.js";
 import { configs } from "./utils/config.js";
 import { connection } from "./db/connection.js";
+import "./db/relations.js"
 
 
 const app = creatApp();

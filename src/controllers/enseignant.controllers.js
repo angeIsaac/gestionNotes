@@ -3,10 +3,10 @@ import {Classe} from "../db/models/classe.js";
 
 export const getAllEnseignants = async (req, res) => {
     try{
-        const allEnseignat = await Enseignant.findAll({include: Classe});
+        const allEnseignat = await Enseignant.findAll();
         res.status(200).json(allEnseignat);
     }catch(err){
-        return res.status(400).json({"erreur": err})
+        return res.status(400).json({"erreur": err.message});
     }
 }
 
@@ -28,7 +28,7 @@ export const createEnseignant = async (req, res) => {
         const enseignant = await Enseignant.create(req.body);
         res.status(200).json(enseignant);
     }catch (err){
-        return res.status(500).json({"error": err})
+        return res.status(500).json({"error": err.message})
     }
 }
 
