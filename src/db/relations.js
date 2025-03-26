@@ -91,7 +91,7 @@ Enseignant.belongsToMany(Classe, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
-Classe.belongsTo(Enseignant, {
+Classe.belongsToMany(Enseignant, {
     foreignKey: 'classeId',
     through: "ClasseEnseigné",
     onDelete: 'CASCADE',
