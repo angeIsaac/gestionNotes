@@ -1,5 +1,4 @@
 import { Enseignant } from "../db/models/enseignant.js";
-import {Classe} from "../db/models/classe.js";
 import {convertToB64, deleteFile} from "../midllware/convertImageToBinary.js";
 
 export const getAllEnseignants = async (req, res) => {

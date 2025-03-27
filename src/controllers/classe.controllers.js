@@ -1,4 +1,4 @@
-import { Fillieres } from "../db/models/filliere.js";
+import { Filiere } from "../db/models/filliere.js";
 import { Classe } from "../db/models/classe.js";
 import {deleteCache, miseEncache, valeurCache} from "../utils/cache.js";
 import {pagination} from "../utils/pagination.js";
@@ -17,12 +17,16 @@ export const updateClasse = async (req, res) => {
     try{
         const data = req.body;
         const id = req.params.id;
-        if(!id){
-            return res.status(400).json({error: 'invalide id'});
-        }
-        const classeUpdate = await Classe.update(data, {
+        if(!id) return res.status(400).json({error: 'invalide id'});
+          await Classe.update(data, {
             where: {id: id},
-            returning: true,
+          })
+        const classeUpdate = await Classe.findOne({
+            where: {id: id},
+            include: {
+                model: Filiere,
+                as: "filiere"
+            }
         })
         if(await valeurCache("" + id)) await miseEncache("" + id, 86400, classeUpdate);
         res.status(200).json(classeUpdate);
@@ -58,15 +62,18 @@ export const getAllClasses = async (req, res) => {
 export const getClasseById = async (req, res) => {
     try{
         const id = req.params.id;
-        if(!id){
-            return res.status(400).json({error: 'invalide id'});
-        }
+        if(!id) return res.status(400).json({error: 'invalide id'});
         const cacheValeur = await valeurCache("" + id)
-        if(cacheValeur){
-            return res.status(200).json(JSON.parse(cacheValeur));
-        }
-        const classes = await Classe.findByPk(id);
-        await miseEncache("" + id, 86400, classes);
+        if(cacheValeur) return res.status(200).json(JSON.parse(cacheValeur));
+
+        const classes = await Classe.findOne({
+            where: {id: id},
+            include: {
+                model: Filiere,
+                as: "filiere",
+            }
+        });
+        if(classes !== null && classes !== undefined) await miseEncache("" + id, 86400, classes);
         return res.status(200).json(classes);
     }catch (error){
         res.status(500).json({error: error});

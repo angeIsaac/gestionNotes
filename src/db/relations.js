@@ -3,8 +3,9 @@ import {Classe} from "./models/classe.js";
 import {Bulletins} from "./models/bulletins.js";
 import {Notes} from "./models/notes.js";
 import {Ue} from "./models/ue.js";
-import {Fillieres} from "./models/filliere.js";
+import {Filiere} from "./models/filliere.js";
 import {Enseignant} from "./models/enseignant.js";
+import {DataTypes} from "sequelize";
 
 
 
@@ -12,12 +13,12 @@ import {Enseignant} from "./models/enseignant.js";
 Etudiant.hasMany(Bulletins, {
     foreignKey: "etudiantId",
     as: "bulletins",
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
 })
 Bulletins.belongsTo(Etudiant, {
     foreignKey: "etudiantId",
     as: "etudiant",
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE'
 })
 
 
@@ -25,62 +26,67 @@ Bulletins.belongsTo(Etudiant, {
 Classe.hasMany(Bulletins, {
     foreignKey: "classeId",
     as: "bulletins",
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
 })
 Bulletins.belongsTo(Classe, {
     foreignKey: "classeId",
     as: "classes",
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
 })
 
 // relation un à plusieurs entre Ue et Notes
 Ue.hasMany(Notes, {
     foreignKey: "ueId",
     as: 'notes',
+    onDelete: "CASCADE",
+    onUpdate: "RESTRICT",
 })
 Notes.belongsTo(Ue, {
-    foreignKey: "ueId",
+    foreignKey: {
+        name: "ueId",
+        type: DataTypes.UUID,
+        allowNull: false,
+    },
     as: "ue",
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE"
 })
 
 //relation  un à plusieur entre etudiant et notes
 Etudiant.hasMany(Notes, {
     foreignKey: "etudiantId",
-    as:"notes"
+    as:"notes",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
 })
 Notes.belongsTo(Etudiant, {
     foreignKey: "etudiantId",
     as: "etudiant",
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE"
 })
 
 // relation  un à plusieur entre classe et la notes
 Classe.hasMany(Notes, {
     foreignKey: "classeId",
     as: "notes",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
 })
 Notes.belongsTo(Classe, {
     foreignKey: "classeId",
-    as: "classes",
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE"
+    as: "classe",
 })
 
 
 // relations  un à plusieur entre la fillieres et classes
-Fillieres.hasMany(Classe, {
-    foreignKey: 'fillierId',
-    as: "filliers",
-})
-Classe.belongsTo(Fillieres, {
-    foreignKey: 'fillierId',
-    as: "filliers",
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-})
+Filiere.hasMany(Classe, {
+    foreignKey: "filiereId",
+    as: "classe", // Un nom logique pour les classes d'une filière
+    onDelete: "CASCADE", // Supprime les classes quand la filière est supprimée
+    onUpdate: "CASCADE",
+});
+
+Classe.belongsTo(Filiere, {
+    foreignKey: "filiereId",
+    as: "filiere", // Un nom logique pour la relation inverse
+});
 
 
 
@@ -112,13 +118,13 @@ Classe.belongsToMany(Etudiant, {
     onUpdate: "CASCADE"
 })
 
-Ue.belongsToMany(Fillieres, {
+Ue.belongsToMany(Filiere, {
     through: "filliere_ue",
     foreignKey: "ueId",
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
-Fillieres.belongsToMany(Ue, {
+Filiere.belongsToMany(Ue, {
     through: "filliere_ue",
     foreignKey: "fillierId",
     onDelete: 'CASCADE',
