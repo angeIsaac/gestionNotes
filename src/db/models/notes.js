@@ -10,10 +10,10 @@ export class Notes extends Model {}
 
 Notes.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true,
+        defaultValue: DataTypes.UUIDV4,
     },
     types: {
         type: DataTypes.STRING,

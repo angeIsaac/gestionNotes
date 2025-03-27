@@ -7,9 +7,9 @@ export class Bulletins extends Model {}
 
 Bulletins.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
-        autoIncrement: true,
+        defaultValue: DataTypes.UUIDV4,
         unique: true,
         primaryKey: true,
     },

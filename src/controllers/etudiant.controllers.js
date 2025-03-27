@@ -3,6 +3,7 @@ import {Bulletins} from "../db/models/bulletins.js";
 import {Notes} from "../db/models/notes.js";
 import {Ue} from "../db/models/ue.js";
 import {uniqueMatricule} from "../service/genereUniqueMatricule.js";
+import {convertToB64, deleteFile} from "../midllware/convertImageToBinary.js";
 
 
 export const getEtudiants = async (req, res) => {
@@ -17,12 +18,18 @@ export const getEtudiants = async (req, res) => {
 
 export const createEtudiant = async (req, res) => {
     try{
-        const body = req.body;
-        let { DateNaissance } = body;
+        let data = req.body;
+        const file = req.file;
+        if(file){
+            const image = await convertToB64(file.path);
+            await deleteFile(file.path);
+            data = {...data, image};
+        }
+        let { DateNaissance } = data;
         DateNaissance = new Date(DateNaissance);
         const matricule = await uniqueMatricule()
         const nouvelEtudiant = await Etudiant.create({
-            ...body,
+            ...data,
             matricule,
             DateNaissance,
         })

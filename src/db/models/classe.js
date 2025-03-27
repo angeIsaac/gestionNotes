@@ -6,9 +6,9 @@ export class Classe extends Model {}
 
 Classe.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        defaultValue: DataTypes.UUIDV4,
         unique: true
     },
     name: {

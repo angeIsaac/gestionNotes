@@ -1,6 +1,7 @@
 import { Users} from "../db/models/users.js";
 import {deleteCache, miseEncache, valeurCache} from "../utils/cache.js";
 import {pagination} from "../utils/pagination.js";
+import {convertToB64, deleteFile} from "../midllware/convertImageToBinary.js";
 
 export const getAllUsers = async (req, res) => {
     try{
@@ -45,7 +46,13 @@ export const getUsersById = async (req, res) => {
 
 export const createUser = async (req, res) => {
     try{
-        const data = req.body
+        let data = req.body;
+        const file = req.file;
+        if(file){
+            const image = await convertToB64(file.path);
+            await deleteFile(file.path);
+            data = {...data, image};
+        }
         const users = await Users.create(data);
         return res.status(200).json(users);
     }catch (error){

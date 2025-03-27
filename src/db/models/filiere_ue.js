@@ -7,9 +7,9 @@ import {sequelize} from "../connection.js";
 export class filiere_ue extends Model {}
 filiere_ue.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        defaultValue: DataTypes.UUIDV4,
         unique: true,
         allowNull: false,
     },

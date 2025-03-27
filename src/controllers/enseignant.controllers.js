@@ -1,5 +1,6 @@
 import { Enseignant } from "../db/models/enseignant.js";
 import {Classe} from "../db/models/classe.js";
+import {convertToB64, deleteFile} from "../midllware/convertImageToBinary.js";
 
 export const getAllEnseignants = async (req, res) => {
     try{
@@ -25,7 +26,14 @@ export const getEnseignantById = async (req, res) => {
 
 export const createEnseignant = async (req, res) => {
     try {
-        const enseignant = await Enseignant.create(req.body);
+        let data = req.body;
+        const file = req.file;
+        if(file){
+            const image = await convertToB64(file.path);
+            await deleteFile(file.path);
+            data = {...data, image};
+        }
+        const enseignant = await Enseignant.create(data);
         res.status(200).json(enseignant);
     }catch (err){
         return res.status(500).json({"error": err.message})

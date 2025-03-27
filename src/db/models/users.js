@@ -11,9 +11,9 @@ export class Users extends Model {
 }
 Users.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        defaultValue: DataTypes.UUIDV4,
         unique: true
     },
     name: {
@@ -33,6 +33,10 @@ Users.init({
             isEmail: true,
             notEmpty: true,
         }
+    },
+    image: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     password: {
         type: DataTypes.STRING,
