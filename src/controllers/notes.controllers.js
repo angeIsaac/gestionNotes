@@ -2,7 +2,12 @@ import { Notes } from "../db/models/notes.js";
 
 export const createNotes = async (req, res) => {
     try{
-        const notes = await Notes.create(req.body);
+        let data = req.body;
+        data = {
+            ...data,
+            "date": new Date(data.date)
+        }
+        const notes = await Notes.create(data);
         res.status(201).json(notes);
     }catch (err){
         return res.status(400).json({"error": err.message});

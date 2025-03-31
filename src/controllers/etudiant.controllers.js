@@ -1,7 +1,4 @@
 import { Etudiant } from "../db/models/etudiant.js";
-import {Bulletins} from "../db/models/bulletins.js";
-import {Notes} from "../db/models/notes.js";
-import {Ue} from "../db/models/ue.js";
 import {uniqueMatricule} from "../service/genereUniqueMatricule.js";
 import {convertToB64, deleteFile} from "../midllware/convertImageToBinary.js";
 
@@ -20,12 +17,18 @@ export const createEtudiant = async (req, res) => {
     try{
         let data = req.body;
         const file = req.file;
-        if(file){
+        console.log("l'image ", req.file);
+        if (file) {
+            console.log("le chemin de l'image", file.path)
             const image = await convertToB64(file.path);
+            console.log("l'image ", image);
             await deleteFile(file.path);
-            data = {...data, image};
+            data = { ...data, image };
         }
         let { DateNaissance } = data;
+        if(!DateNaissance || !(new Date(DateNaissance).getTime())) {
+            return res.status(400).json({"error": "la date est invalide"});
+        }
         DateNaissance = new Date(DateNaissance);
         const matricule = await uniqueMatricule()
         const nouvelEtudiant = await Etudiant.create({

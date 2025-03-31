@@ -36,7 +36,7 @@ import { sequelize } from "../connection.js";
             unique: true,
         },
      image: {
-             type: DataTypes.STRING,
+             type: DataTypes.TEXT,
             allowNull: false,
      },
         email: {

@@ -13,7 +13,8 @@ Ue.init({
     },
     nom: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true,
     },
     coefficient : {
         type: DataTypes.INTEGER,
