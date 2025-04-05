@@ -5,8 +5,10 @@ import {Notes} from "./models/notes.js";
 import {Ue} from "./models/ue.js";
 import {Filiere} from "./models/filliere.js";
 import {Enseignant} from "./models/enseignant.js";
-import {DataTypes} from "sequelize";
-
+import { ClasseEnseigne } from "./models/classeEnseigne.js";
+import { Inscription } from "./models/inscription.js";
+import { FilliereUe } from "./models/filliereUe.js";
+import {EnseignantUe} from "./models/enseignatUe.js";
 
 
 // relation entre etudiant et bulletins
@@ -88,54 +90,54 @@ Classe.belongsTo(Filiere, {
 
 // relation un à plusieurs entre enseignant et une classe
 Enseignant.belongsToMany(Classe, {
-    through: "ClasseEnseigné",
+    through: ClasseEnseigne,
     foreignKey: 'enseignId',
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
 Classe.belongsToMany(Enseignant, {
     foreignKey: 'classeId',
-    through: "ClasseEnseigné",
+    through: ClasseEnseigne,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
 
 // relation plusieurs à plusieurs entres etudiant et classe
 Etudiant.belongsToMany(Classe, {
-    through: "inscriptions",
+    through: Inscription,
     foreignKey: 'etudiantId',
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
 Classe.belongsToMany(Etudiant, {
-    through: "inscriptions",
+    through: Inscription,
     foreignKey: "classId",
     onDelete: "CASCADE",
     onUpdate: "CASCADE"
 })
 
 Ue.belongsToMany(Filiere, {
-    through: "filliere_ue",
+    through: FilliereUe,
     foreignKey: "ueId",
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
 Filiere.belongsToMany(Ue, {
-    through: "filliere_ue",
+    through: FilliereUe,
     foreignKey: "fillierId",
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
 
 Enseignant.belongsToMany(Ue, {
-    through: "enseignant_Ue",
+    through: EnseignantUe,
     foreignKey: "enseignantId",
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
 Ue.belongsToMany(Enseignant, {
-    through: "enseignant_Ue",
-    foreignKey: "enseignantId",
+    through: EnseignantUe,
+    foreignKey: "ueId",
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
