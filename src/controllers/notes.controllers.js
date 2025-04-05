@@ -1,4 +1,7 @@
 import { Notes } from "../db/models/notes.js";
+import {Etudiant} from "../db/models/etudiant.js";
+import {Ue} from "../db/models/ue.js";
+import {Classe} from "../db/models/classe.js";
 
 export const createNotes = async (req, res) => {
     try{
@@ -40,7 +43,13 @@ export const deleteNote = async (req, res) => {
 export const getNoteById = async (req, res) => {
     try {
         if(! req.params.id ) return res.status(400).json({"error":"Not Found"});
-        return res.status(200).json(await Notes.findByPk(req.params.id));
+        return res.status(200).json(await Notes.findByPk(req.params.id, {
+            include: [
+                { model: Etudiant, as: "etudiant", },
+                { model: Ue, as: "ue" },
+                {model: Classe, as: "classe"}
+            ]
+        }));
     }catch (err){
         return res.status(500).json({"error": err.message});
     }

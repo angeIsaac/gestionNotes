@@ -42,11 +42,7 @@ Ue.hasMany(Notes, {
     onUpdate: "RESTRICT",
 })
 Notes.belongsTo(Ue, {
-    foreignKey: {
-        name: "ueId",
-        type: DataTypes.UUID,
-        allowNull: false,
-    },
+    foreignKey: "ueId",
     as: "ue",
 })
 

@@ -9,6 +9,7 @@ import fillierRoutes from "./routes/filliere.route.js";
 import classeRoutes from "./routes/classe.route.js";
 import notesRoutes from "./routes/notes.route.js"
 import ueRoutes from "./routes/ue.route.js"
+import bulletinsRoutes from "./routes/bulletins.route.js"
 
 export const creatApp = function (){
     const app = express();
@@ -25,6 +26,7 @@ export const creatApp = function (){
     app.use("/api/classes", classeRoutes);
     app.use("/api/Notes", notesRoutes);
     app.use("/api/ue", ueRoutes);
+    app.use("/api/bulletins", bulletinsRoutes);
 
     app.use(errorHandlers)
     return app;
