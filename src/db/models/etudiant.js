@@ -35,10 +35,11 @@ import { sequelize } from "../connection.js";
             allowNull: false,
             unique: true,
         },
+     /*
      image: {
              type: DataTypes.TEXT,
             allowNull: false,
-     },
+     },*/
         email: {
              type: DataTypes.STRING,
             allowNull: false,

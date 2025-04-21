@@ -10,6 +10,7 @@ import classeRoutes from "./routes/classe.route.js";
 import notesRoutes from "./routes/notes.route.js"
 import ueRoutes from "./routes/ue.route.js"
 import bulletinsRoutes from "./routes/bulletins.route.js"
+import versementRoute from "./routes/versement.route.js";
 
 export const creatApp = function (){
     const app = express();
@@ -27,6 +28,7 @@ export const creatApp = function (){
     app.use("/api/Notes", notesRoutes);
     app.use("/api/ue", ueRoutes);
     app.use("/api/bulletins", bulletinsRoutes);
+    app.use("/api/versement", versementRoute)
 
     app.use(errorHandlers)
     return app;

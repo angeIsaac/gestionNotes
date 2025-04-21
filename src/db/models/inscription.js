@@ -33,6 +33,10 @@ Inscription.init(
             type: DataTypes.FLOAT,
             allowNull: false,
             defaultValue: 0
+        },
+        soldee: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
         }
     },
     {

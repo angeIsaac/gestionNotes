@@ -79,3 +79,12 @@ export const getClasseById = async (req, res) => {
         res.status(500).json({error: error});
     }
 }
+
+export const getClasse = async id => {
+   try{
+       if(!id) throw new Error("l'erreur au niveau de la classe: l'identifiant est invalide");
+       return await Classe.findByPk(id)
+   }catch (error){
+       throw error;
+   }
+}

@@ -1,12 +1,19 @@
 import { Etudiant } from "../db/models/etudiant.js";
 import {uniqueMatricule} from "../service/genereUniqueMatricule.js";
-import {convertToB64, deleteFile} from "../midllware/convertImageToBinary.js";
+import { convertToB64, deleteFile } from "../midllware/convertImageToBinary.js";
+import {getClasse} from "./classe.controllers.js";
+import {calculeMontant, inscriptions} from "../service/inscriptions.js";
+import {premierVersement} from "../service/premierVersement.js";
+import {Classe} from "../db/models/classe.js";
+import {Bulletins} from "../db/models/bulletins.js";
+import {Notes} from "../db/models/notes.js";
+
 
 
 export const getEtudiants = async (req, res) => {
     try{
-        const AllEtudiants = await Etudiant.findAll();
-        res.status(200).json(AllEtudiants);
+        const allEtudiants = await Etudiant.findAll();
+        res.status(200).json(allEtudiants);
     }catch (error){
         console.log(error)
         res.status(500).json({"error": error});
@@ -15,29 +22,36 @@ export const getEtudiants = async (req, res) => {
 
 export const createEtudiant = async (req, res) => {
     try{
-        let data = req.body;
-        const file = req.file;
-        console.log("l'image ", req.file);
-        if (file) {
-            console.log("le chemin de l'image", file.path)
-            const image = await convertToB64(file.path);
-            console.log("l'image ", image);
-            await deleteFile(file.path);
-            data = { ...data, image };
+        let {dateIncription, montantPayer, ...data} = req.body;
+        if(( !dateIncription && !( new Date(dateIncription).getTime()) ) || !montantPayer ){
+            return res.status(400).json({"error": "Invalid date incription"});
         }
+        const classe = await getClasse(data.classeId);
+        console.log(" la classe de l'etudiant: " ,classe)
+        if(!classe) return res.status(400).json({"error": "la classe est vide"});
         let { DateNaissance } = data;
         if(!DateNaissance || !(new Date(DateNaissance).getTime())) {
             return res.status(400).json({"error": "la date est invalide"});
         }
+
         DateNaissance = new Date(DateNaissance);
         const matricule = await uniqueMatricule()
-        const nouvelEtudiant = await Etudiant.create({
+        var nouvelEtudiant = await Etudiant.create({
             ...data,
             matricule,
             DateNaissance,
         })
+        console.log("l'etudiant recement creer: " ,nouvelEtudiant)
+        await inscriptions(nouvelEtudiant, classe, calculeMontant, montantPayer, dateIncription);
+        await premierVersement({
+            "montant": montantPayer,
+            "dateVersement": new Date(dateIncription)
+        }, nouvelEtudiant.id)
         res.status(201).json(nouvelEtudiant);
     }catch (error){
+       if(nouvelEtudiant){
+           await Etudiant.destroy({where: {id: nouvelEtudiant.id}})
+       }
         res.status(500).json({"error": error.message});
     }
 }
@@ -80,6 +94,22 @@ export const getEtudiantById = async (req, res) => {
       }
        const etudiant = await Etudiant.findOne({
            where: {id: id},
+           include: [
+               {
+                   model: Classe,
+                   through: {
+                       attributes: ["classId", "soldee", "montantRestant"],
+                   }
+               },
+               {
+                   model: Bulletins,
+                   as: "bulletins",
+               },
+               {
+                   model: Notes,
+                   as: "notes",
+               }
+           ]
        })
         res.status(200).json(etudiant);
     }catch (error){

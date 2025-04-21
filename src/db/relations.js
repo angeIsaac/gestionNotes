@@ -9,6 +9,7 @@ import { ClasseEnseigne } from "./models/classeEnseigne.js";
 import { Inscription } from "./models/inscription.js";
 import { FilliereUe } from "./models/filliereUe.js";
 import {EnseignantUe} from "./models/enseignatUe.js";
+import {Versement} from "./models/versement.js";
 
 
 // relation entre etudiant et bulletins
@@ -91,7 +92,7 @@ Classe.belongsTo(Filiere, {
 // relation un à plusieurs entre enseignant et une classe
 Enseignant.belongsToMany(Classe, {
     through: ClasseEnseigne,
-    foreignKey: 'enseignId',
+    foreignKey: 'enseignantId',
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
@@ -103,18 +104,7 @@ Classe.belongsToMany(Enseignant, {
 })
 
 // relation plusieurs à plusieurs entres etudiant et classe
-Etudiant.belongsToMany(Classe, {
-    through: Inscription,
-    foreignKey: 'etudiantId',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-})
-Classe.belongsToMany(Etudiant, {
-    through: Inscription,
-    foreignKey: "classId",
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE"
-})
+
 
 Ue.belongsToMany(Filiere, {
     through: FilliereUe,
@@ -141,3 +131,36 @@ Ue.belongsToMany(Enseignant, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
+Etudiant.belongsToMany(Classe, {
+    through: Inscription,
+    foreignKey: 'etudiantId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+})
+Classe.belongsToMany(Etudiant, {
+    through: Inscription,
+    foreignKey: "classId",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
+})
+// Un Inscription a plusieurs versements
+Inscription.hasMany(Versement, {
+    foreignKey: 'inscriptionId',
+    as: "versement",
+    onDelete: 'CASCADE'
+});
+Versement.belongsTo(Inscription, {
+    foreignKey: 'inscriptionId',
+    as: "inscription",
+});
+
+Inscription.belongsTo(Etudiant, {
+    foreignKey: 'etudiantId',
+    as: 'etudiant'
+});
+
+Inscription.belongsTo(Classe, {
+    foreignKey: 'classId',
+    as: 'classe'
+});
+
